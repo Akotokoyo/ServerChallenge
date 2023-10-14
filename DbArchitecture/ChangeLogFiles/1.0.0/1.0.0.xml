@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<databaseChangeLog 
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="Tedde" id="create_table_users">
+        <createTable tableName="Users">
+        <column name="Id" type="int" autoIncrement="true">
+            <constraints primaryKey="true" />
+        </column>
+        <column name="Name" type="nvarchar(512)">
+            <constraints nullable="false" />
+        </column>
+        <column name="Level" type="int">
+            <constraints nullable="false" />
+        </column>
+        <column name="Email" type="nvarchar(512)">
+            <constraints nullable="true" />
+        </column>
+        <column name="Language" type="nvarchar(512)">
+            <constraints nullable="false" />
+        </column>
+        </createTable>      
+    </changeSet>
+
+    <changeSet author="Tedde" id="create_table_items">
+        <createTable tableName="Items">
+            <column name="Id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="Name" type="nvarchar(512)">
+                <constraints nullable="false" />
+            </column>
+            <column name="ItemType" type="nvarchar(512)">
+                <constraints nullable="false" />
+            </column>
+            <column name="Prize" type="int">
+                <constraints nullable="false" />
+            </column>
+        </createTable>      
+    </changeSet>
+  
+    <changeSet author="Tedde" id="create_table_user_items">
+        <createTable tableName="UserItems">
+        
+            <column name="UserId" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="ItemId" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="ItemAmount" type="int">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addForeignKeyConstraint constraintName="FK_Users_to_UserItems"
+                                baseTableName="UserItems"
+                                baseColumnNames="UserId"
+                                referencedTableName="Users"
+                                referencedColumnNames="Id" />  
+        <addForeignKeyConstraint constraintName="FK_Items_to_UserItems"
+                                baseTableName="UserItems"
+                                baseColumnNames="ItemId"
+                                referencedTableName="Items"
+                                referencedColumnNames="Id" />  
+        <addPrimaryKey
+            columnNames="UserId, ItemId"
+            constraintName="pk_UserItems"
+            schemaName="public"
+            tableName="UserItems"/>        
+    </changeSet>
+
+    <changeSet author="Tedde" id="create_table_friend_requests">
+        <createTable tableName="FriendRequests">
+            <column name="Id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="SenderId" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="ReceiverId" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="Timestamp" type="datetime">
+                <constraints nullable="false" />
+            </column>
+        </createTable>      
+    </changeSet>
+
+    <changeSet author="Tedde" id="create_table_friends">
+        <createTable tableName="Friends">
+            <column name="Id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="User1Id" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="User2Id" type="int">
+                <constraints nullable="false" />
+            </column>
+        </createTable>      
+    </changeSet>
+
+</databaseChangeLog>
+
+
+
